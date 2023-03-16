@@ -1,10 +1,11 @@
 import Core from '../Core.js';
 export default class Cart extends Core {
   constructor($target) {
-    super();
+    super($target);
     this.$target = $target;
   }
-  render() {
-    this.$target.innerHTMl = `Cart`;
+  markup() {
+    return `<div id="cart"><h1>This is Cart Page</h1></div>`;
   }
+  appendChild() {}
 }

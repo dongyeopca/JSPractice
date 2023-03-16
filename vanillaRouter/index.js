@@ -5,17 +5,25 @@ import Navigator from './components/Navigator.js';
 import Cart from './components/Cart.js';
 import Core from './Core.js';
 class App extends Core {
-  constructor() {
-    super();
-    this.router = new Router(this.$target, [
-      { name: 'Home', component: Home },
-      { name: 'Cart', component: Cart },
-      { name: 'Mypage', component: Mypage },
-    ]);
+  constructor($target) {
+    super($target);
+  }
+  setup() {
+    this.routes = [
+      { path: 'vanillaRouter/', component: Home },
+      { path: 'vanillaRouter/cart', component: Cart },
+      { path: 'vanillaRouter/mypage', component: Mypage },
+    ];
   }
   markup() {
-    `${new Navigator(this.$target).markup()}`;
-    // `${this.router.component}`
+    return `<div id="navigation"></div><div id="content"></div>`;
+  }
+
+  appendChild() {
+    const nav = document.querySelector('#navigation');
+    new Navigator(nav, { inner: true });
+    const content = document.querySelector('#content');
+    new Router(this.$target, content, this.routes);
   }
 }
 

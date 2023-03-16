@@ -1,17 +1,24 @@
 export default class Router {
-  constructor(target, routes, errorPage) {
+  constructor(target, render_target, routes, errorPage) {
     this.target = target;
+    this.render_target = render_target;
     this.routes = routes;
     this.errorPage = errorPage;
+    this.set();
+    this.route();
     this.linkEventHandler();
     this.linkBackEventHanlder();
   }
-
+  set() {}
   route() {
-    const path = window.location.pathname;
-    let target = this.routes.find((e) => e.name === path);
+    const path = window.location.pathname.slice(1);
+    let target = this.routes.find((e) => {
+      return e.path == path;
+    });
     if (target) {
-      console.log(target.name);
+      const Page = target.component;
+      new Page(this.render_target);
+      console.log(Page);
       return;
     }
   }
@@ -23,6 +30,7 @@ export default class Router {
       this.push(target.href);
     });
   }
+
   linkBackEventHanlder() {
     window.addEventListener('popstate', () => {
       this.route();
